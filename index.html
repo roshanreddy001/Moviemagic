@@ -6,14 +6,14 @@
   <title>Login | Movie Booking</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-    
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
     }
-    
+
     body {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       height: 100vh;
@@ -22,7 +22,7 @@
       align-items: center;
       overflow: hidden;
     }
-    
+
     .bubbles {
       position: absolute;
       width: 100%;
@@ -32,7 +32,7 @@
       top: 0;
       left: 0;
     }
-    
+
     .bubble {
       position: absolute;
       bottom: -100px;
@@ -40,14 +40,14 @@
       border-radius: 50%;
       animation: rise 15s infinite ease-in;
     }
-    
+
     .bubble:nth-child(1) {
       width: 40px;
       height: 40px;
       left: 10%;
       animation-duration: 8s;
     }
-    
+
     .bubble:nth-child(2) {
       width: 20px;
       height: 20px;
@@ -55,7 +55,7 @@
       animation-duration: 5s;
       animation-delay: 1s;
     }
-    
+
     .bubble:nth-child(3) {
       width: 50px;
       height: 50px;
@@ -63,7 +63,7 @@
       animation-duration: 7s;
       animation-delay: 2s;
     }
-    
+
     .bubble:nth-child(4) {
       width: 80px;
       height: 80px;
@@ -71,7 +71,7 @@
       animation-duration: 11s;
       animation-delay: 0s;
     }
-    
+
     .bubble:nth-child(5) {
       width: 35px;
       height: 35px;
@@ -79,7 +79,7 @@
       animation-duration: 6s;
       animation-delay: 1s;
     }
-    
+
     .bubble:nth-child(6) {
       width: 45px;
       height: 45px;
@@ -87,7 +87,7 @@
       animation-duration: 8s;
       animation-delay: 3s;
     }
-    
+
     .bubble:nth-child(7) {
       width: 25px;
       height: 25px;
@@ -95,7 +95,7 @@
       animation-duration: 7s;
       animation-delay: 2s;
     }
-    
+
     .bubble:nth-child(8) {
       width: 80px;
       height: 80px;
@@ -103,7 +103,7 @@
       animation-duration: 6s;
       animation-delay: 1s;
     }
-    
+
     @keyframes rise {
       0% {
         bottom: -100px;
@@ -117,7 +117,7 @@
         transform: translateX(-200px);
       }
     }
-    
+
     .login-container {
       position: relative;
       z-index: 1;
@@ -130,7 +130,7 @@
       animation: fadeInUp 0.8s ease-out;
       transform-style: preserve-3d;
     }
-    
+
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -141,7 +141,7 @@
         transform: translateY(0);
       }
     }
-    
+
     .login-container::before {
       content: '';
       position: absolute;
@@ -157,13 +157,13 @@
       transform: rotate(30deg);
       pointer-events: none;
     }
-    
+
     .logo {
       text-align: center;
       margin-bottom: 30px;
       animation: pulse 2s infinite;
     }
-    
+
     @keyframes pulse {
       0% {
         transform: scale(1);
@@ -175,24 +175,24 @@
         transform: scale(1);
       }
     }
-    
+
     .logo h1 {
       color: #764ba2;
       font-weight: 600;
       font-size: 28px;
       margin-bottom: 10px;
     }
-    
+
     .logo p {
       color: #666;
       font-size: 14px;
     }
-    
+
     .input-group {
       position: relative;
       margin-bottom: 25px;
     }
-    
+
     .input-group input {
       width: 100%;
       padding: 15px 20px;
@@ -204,12 +204,12 @@
       transition: all 0.3s;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
     }
-    
+
     .input-group input:focus {
       background: white;
       box-shadow: 0 5px 15px rgba(118, 75, 162, 0.2);
     }
-    
+
     .input-group label {
       position: absolute;
       top: 15px;
@@ -219,7 +219,7 @@
       pointer-events: none;
       transition: all 0.3s;
     }
-    
+
     .input-group input:focus + label,
     .input-group input:valid + label {
       top: -10px;
@@ -229,7 +229,7 @@
       padding: 0 5px;
       color: #764ba2;
     }
-    
+
     .remember-forgot {
       display: flex;
       justify-content: space-between;
@@ -237,28 +237,28 @@
       margin-bottom: 25px;
       font-size: 14px;
     }
-    
+
     .remember-forgot label {
       display: flex;
       align-items: center;
       color: #666;
       cursor: pointer;
     }
-    
+
     .remember-forgot input {
       margin-right: 5px;
     }
-    
+
     .remember-forgot a {
       color: #764ba2;
       text-decoration: none;
       transition: all 0.3s;
     }
-    
+
     .remember-forgot a:hover {
       text-decoration: underline;
     }
-    
+
     .btn-login {
       width: 100%;
       padding: 15px;
@@ -275,16 +275,16 @@
       position: relative;
       margin-bottom: 15px;
     }
-    
+
     .btn-login:hover {
       transform: translateY(-3px);
       box-shadow: 0 8px 20px rgba(118, 75, 162, 0.6);
     }
-    
+
     .btn-login:active {
       transform: translateY(0);
     }
-    
+
     .btn-login::before {
       content: '';
       position: absolute;
@@ -300,11 +300,11 @@
       );
       transition: 0.5s;
     }
-    
+
     .btn-login:hover::before {
       left: 100%;
     }
-    
+
     .btn-guest {
       width: 100%;
       padding: 15px;
@@ -320,47 +320,47 @@
       overflow: hidden;
       position: relative;
     }
-    
+
     .btn-guest:hover {
       transform: translateY(-3px);
       box-shadow: 0 8px 20px rgba(118, 75, 162, 0.3);
       background: rgba(118, 75, 162, 0.05);
     }
-    
+
     .btn-guest:active {
       transform: translateY(0);
     }
-    
+
     .register-link {
       text-align: center;
       margin-top: 25px;
       color: #666;
       font-size: 14px;
     }
-    
+
     .register-link a {
       color: #764ba2;
       text-decoration: none;
       font-weight: 500;
       transition: all 0.3s;
     }
-    
+
     .register-link a:hover {
       text-decoration: underline;
     }
-    
+
     .social-login {
       margin-top: 30px;
       text-align: center;
     }
-    
+
     .social-login p {
       color: #666;
       font-size: 14px;
       margin-bottom: 15px;
       position: relative;
     }
-    
+
     .social-login p::before,
     .social-login p::after {
       content: '';
@@ -370,21 +370,21 @@
       height: 1px;
       background: #ddd;
     }
-    
+
     .social-login p::before {
       left: 0;
     }
-    
+
     .social-login p::after {
       right: 0;
     }
-    
+
     .social-icons {
       display: flex;
       justify-content: center;
       gap: 15px;
     }
-    
+
     .social-icon {
       width: 40px;
       height: 40px;
@@ -398,27 +398,27 @@
       transition: all 0.3s;
       cursor: pointer;
     }
-    
+
     .social-icon:hover {
       transform: translateY(-3px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
-    
+
     .social-icon:nth-child(1):hover {
       background: #3b5998;
       color: white;
     }
-    
+
     .social-icon:nth-child(2):hover {
       background: #db4437;
       color: white;
     }
-    
+
     .social-icon:nth-child(3):hover {
       background: #1da1f2;
       color: white;
     }
-    
+
     .guest-info {
       margin-top: 15px;
       padding: 10px;
@@ -429,7 +429,28 @@
       color: #666;
       animation: fadeIn 0.5s ease-out;
     }
-    
+
+    .message {
+      text-align: center;
+      margin: 15px 0;
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: 500;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .success {
+      background: rgba(76, 175, 80, 0.1);
+      color: #2e7d32;
+      border: 1px solid rgba(76, 175, 80, 0.3);
+    }
+
+    .error {
+      background: rgba(244, 67, 54, 0.1);
+      color: #c62828;
+      border: 1px solid rgba(244, 67, 54, 0.3);
+    }
+
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -437,6 +458,29 @@
       to {
         opacity: 1;
       }
+    }
+
+    .demo-credentials {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(118, 75, 162, 0.05);
+      border-radius: 10px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .demo-credentials h3 {
+      margin-bottom: 10px;
+      color: #764ba2;
+      font-size: 14px;
+    }
+
+    .credential-group {
+      margin-bottom: 8px;
+    }
+
+    .credential-group:last-child {
+      margin-bottom: 0;
     }
   </style>
 </head>
@@ -457,37 +501,49 @@
       <h1>MovieMagic</h1>
       <p>Book your favorite movies in just a few clicks</p>
     </div>
-    
+
     <form id="loginForm">
       <div class="input-group">
         <input type="text" id="username" required>
-        <label for="username">Username</label>
+        <label for="username">Username or Email</label>
       </div>
-      
+
       <div class="input-group">
         <input type="password" id="password" required>
         <label for="password">Password</label>
       </div>
-      
+
       <div class="remember-forgot">
         <label>
           <input type="checkbox"> Remember me
         </label>
         <a href="#">Forgot password?</a>
       </div>
-      
+
       <button type="submit" class="btn-login">Login</button>
-      
+
       <button type="button" class="btn-guest" id="guestLogin">Continue as Guest</button>
-      
+
+      <div id="message" class="message" style="display: none;"></div>
+
       <div id="guestInfo" class="guest-info" style="display: none;">
         <p><strong>Guest Mode:</strong> You can browse and book movies, but some features may be limited.</p>
       </div>
-      
+
+      <div class="demo-credentials">
+        <h3>Demo Credentials:</h3>
+        <div class="credential-group">
+          <strong>User:</strong> roshan@gmail.com / 123456
+        </div>
+        <div class="credential-group">
+          <strong>Admin:</strong> admin@admin_gmail.com / roshan_babu
+        </div>
+      </div>
+
       <div class="register-link">
         Don't have an account? <a href="#">Register here</a>
       </div>
-      
+
       <div class="social-login">
         <p>or login with</p>
         <div class="social-icons">
@@ -507,67 +563,120 @@
 
   <!-- Font Awesome for social icons -->
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  
+
   <script>
+    // Clear any existing login state to ensure the login page is shown
+    localStorage.removeItem('isLoggedIn');
+
+    // Predefined credentials
+    const validCredentials = {
+      "roshan@gmail.com": "123456",
+      "admin@admin_gmail.com": "roshan_babu"
+    };
+
+    // Show message function
+    function showMessage(message, type) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.textContent = message;
+      messageDiv.className = `message ${type}`;
+      messageDiv.style.display = 'block';
+
+      // Auto hide success message after 3 seconds
+      if (type === 'success') {
+        setTimeout(() => {
+          messageDiv.style.display = 'none';
+        }, 3000);
+      }
+    }
+
+    // Login form handler
     document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      
+
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
-      
+
+      // Clear any previous messages
+      document.getElementById('message').style.display = 'none';
+
       // Simple validation
       if(username === '' || password === '') {
-        alert('Please enter both username and password');
+        showMessage('Please enter both username and password', 'error');
         return;
       }
-      
-      // Simulate login processing
-      const loginContainer = document.querySelector('.login-container');
-      loginContainer.style.animation = 'none';
-      loginContainer.style.transform = 'scale(0.9)';
-      setTimeout(() => {
-        loginContainer.style.transition = 'all 0.3s';
-        loginContainer.style.transform = 'scale(1)';
-        
-        // Store login state (in a real app, you'd verify credentials)
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('userType', 'registered');
-        
-        // Redirect to movie selection page
-        window.location.href = 'index.html';
-      }, 1000);
+
+      // Check credentials
+      if (validCredentials[username] && validCredentials[username] === password) {
+        // Show success message
+        showMessage('Successfully logged in! Redirecting...', 'success');
+
+        // Simulate login processing
+        const loginContainer = document.querySelector('.login-container');
+        loginContainer.style.animation = 'none';
+        loginContainer.style.transform = 'scale(0.9)';
+
+        setTimeout(() => {
+          loginContainer.style.transition = 'all 0.3s';
+          loginContainer.style.transform = 'scale(1)';
+
+          // Store login state
+          localStorage.setItem('isLoggedIn', 'true');
+          localStorage.setItem('userType', 'registered');
+          localStorage.setItem('username', username);
+
+          // Redirect to home page
+          setTimeout(() => {
+            window.location.href = 'home.html';
+          }, 1500);
+        }, 1000);
+      } else {
+        // Show error message
+        showMessage('Invalid credentials. Please try again.', 'error');
+
+        // Shake animation for error
+        const loginContainer = document.querySelector('.login-container');
+        loginContainer.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+          loginContainer.style.animation = '';
+        }, 500);
+      }
     });
-    
-    // Guest login functionality
+
+    // Guest login functionality - FIXED VERSION
     document.getElementById('guestLogin').addEventListener('click', function() {
       const loginContainer = document.querySelector('.login-container');
       const guestInfo = document.getElementById('guestInfo');
-      
+
+      // Clear any previous messages
+      document.getElementById('message').style.display = 'none';
+
       // Show guest info
       guestInfo.style.display = 'block';
-      
+
       // Animation effect
       loginContainer.style.animation = 'none';
       loginContainer.style.transform = 'scale(0.95)';
-      
+
       setTimeout(() => {
         loginContainer.style.transition = 'all 0.3s';
         loginContainer.style.transform = 'scale(1)';
-        
+
         // Store guest login state
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('userType', 'guest');
-        
-        // Show confirmation before redirecting
-        if (confirm('Continue as guest? Some features may be limited.')) {
-          // Redirect to movie selection page
-          window.location.href = 'index.html';
-        } else {
-          guestInfo.style.display = 'none';
-        }
+        localStorage.setItem('username', 'Guest User');
+
+        // Show success message for guest login
+        showMessage('Guest login successful! Redirecting...', 'success');
+
+        // Redirect to home page after delay
+        setTimeout(() => {
+          window.location.href = 'home.html';
+        }, 1500);
+
       }, 500);
     });
-    
+
     // Add floating label effect for inputs
     document.querySelectorAll('.input-group input').forEach(input => {
       input.addEventListener('focus', function() {
@@ -576,7 +685,7 @@
         this.parentNode.querySelector('label').style.background = 'white';
         this.parentNode.querySelector('label').style.color = '#764ba2';
       });
-      
+
       input.addEventListener('blur', function() {
         if(this.value === '') {
           this.parentNode.querySelector('label').style.top = '15px';
@@ -586,6 +695,17 @@
         }
       });
     });
+
+    // Add shake animation for errors
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+    `;
+    document.head.appendChild(style);
   </script>
 </body>
 </html>
