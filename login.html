@@ -430,6 +430,27 @@
       animation: fadeIn 0.5s ease-out;
     }
     
+    .message {
+      text-align: center;
+      margin: 15px 0;
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: 500;
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    .success {
+      background: rgba(76, 175, 80, 0.1);
+      color: #2e7d32;
+      border: 1px solid rgba(76, 175, 80, 0.3);
+    }
+    
+    .error {
+      background: rgba(244, 67, 54, 0.1);
+      color: #c62828;
+      border: 1px solid rgba(244, 67, 54, 0.3);
+    }
+    
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -437,6 +458,29 @@
       to {
         opacity: 1;
       }
+    }
+    
+    .demo-credentials {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(118, 75, 162, 0.05);
+      border-radius: 10px;
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .demo-credentials h3 {
+      margin-bottom: 10px;
+      color: #764ba2;
+      font-size: 14px;
+    }
+    
+    .credential-group {
+      margin-bottom: 8px;
+    }
+    
+    .credential-group:last-child {
+      margin-bottom: 0;
     }
   </style>
 </head>
@@ -461,7 +505,7 @@
     <form id="loginForm">
       <div class="input-group">
         <input type="text" id="username" required>
-        <label for="username">Username</label>
+        <label for="username">Username or Email</label>
       </div>
       
       <div class="input-group">
@@ -480,8 +524,20 @@
       
       <button type="button" class="btn-guest" id="guestLogin">Continue as Guest</button>
       
+      <div id="message" class="message" style="display: none;"></div>
+      
       <div id="guestInfo" class="guest-info" style="display: none;">
         <p><strong>Guest Mode:</strong> You can browse and book movies, but some features may be limited.</p>
+      </div>
+      
+      <div class="demo-credentials">
+        <h3>Demo Credentials:</h3>
+        <div class="credential-group">
+          <strong>User:</strong> roshan@gmail.com / 123456
+        </div>
+        <div class="credential-group">
+          <strong>Admin:</strong> admin@admin_gmail.com / roshan_babu
+        </div>
       </div>
       
       <div class="register-link">
@@ -509,39 +565,87 @@
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   
   <script>
+    // Predefined credentials
+    const validCredentials = {
+      "roshan@gmail.com": "123456",
+      "admin@admin_gmail.com": "roshan_babu"
+    };
+    
+    // Show message function
+    function showMessage(message, type) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.textContent = message;
+      messageDiv.className = `message ${type}`;
+      messageDiv.style.display = 'block';
+      
+      // Auto hide success message after 3 seconds
+      if (type === 'success') {
+        setTimeout(() => {
+          messageDiv.style.display = 'none';
+        }, 3000);
+      }
+    }
+    
+    // Login form handler
     document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
       
+      // Clear any previous messages
+      document.getElementById('message').style.display = 'none';
+      
       // Simple validation
       if(username === '' || password === '') {
-        alert('Please enter both username and password');
+        showMessage('Please enter both username and password', 'error');
         return;
       }
       
-      // Simulate login processing
-      const loginContainer = document.querySelector('.login-container');
-      loginContainer.style.animation = 'none';
-      loginContainer.style.transform = 'scale(0.9)';
-      setTimeout(() => {
-        loginContainer.style.transition = 'all 0.3s';
-        loginContainer.style.transform = 'scale(1)';
+      // Check credentials
+      if (validCredentials[username] && validCredentials[username] === password) {
+        // Show success message
+        showMessage('Successfully logged in! Redirecting...', 'success');
         
-        // Store login state (in a real app, you'd verify credentials)
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('userType', 'registered');
+        // Simulate login processing
+        const loginContainer = document.querySelector('.login-container');
+        loginContainer.style.animation = 'none';
+        loginContainer.style.transform = 'scale(0.9)';
         
-        // Redirect to movie selection page
-        window.location.href = 'index.html';
-      }, 1000);
+        setTimeout(() => {
+          loginContainer.style.transition = 'all 0.3s';
+          loginContainer.style.transform = 'scale(1)';
+          
+          // Store login state
+          localStorage.setItem('isLoggedIn', 'true');
+          localStorage.setItem('userType', 'registered');
+          localStorage.setItem('username', username);
+          
+          // Redirect to home page
+          setTimeout(() => {
+            window.location.href = 'home.html';
+          }, 1500);
+        }, 1000);
+      } else {
+        // Show error message
+        showMessage('Invalid credentials. Please try again.', 'error');
+        
+        // Shake animation for error
+        const loginContainer = document.querySelector('.login-container');
+        loginContainer.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+          loginContainer.style.animation = '';
+        }, 500);
+      }
     });
     
     // Guest login functionality
     document.getElementById('guestLogin').addEventListener('click', function() {
       const loginContainer = document.querySelector('.login-container');
       const guestInfo = document.getElementById('guestInfo');
+      
+      // Clear any previous messages
+      document.getElementById('message').style.display = 'none';
       
       // Show guest info
       guestInfo.style.display = 'block';
@@ -560,8 +664,8 @@
         
         // Show confirmation before redirecting
         if (confirm('Continue as guest? Some features may be limited.')) {
-          // Redirect to movie selection page
-          window.location.href = 'index.html';
+          // Redirect to home page
+          window.location.href = 'home.html';
         } else {
           guestInfo.style.display = 'none';
         }
@@ -586,6 +690,17 @@
         }
       });
     });
+    
+    // Add shake animation for errors
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+    `;
+    document.head.appendChild(style);
   </script>
 </body>
 </html>
