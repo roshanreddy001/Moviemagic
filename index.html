@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Selection</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .header {
+      margin-bottom: 30px;
+    }
+    .movies-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .movie-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+    .movie-card:hover {
+      transform: translateY(-5px);
+    }
+    .movie-card img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+    .movie-info {
+      padding: 15px;
+    }
+    .movie-info h3 {
+      margin: 0 0 5px 0;
+    }
+    .movie-info p {
+      margin: 5px 0;
+      color: #666;
+    }
+    .price {
+      font-weight: bold;
+      color: #00aec9;
+    }
+    
+    /* New styles for search, filter and profile */
+    .profile-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      padding: 15px 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    .profile-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .profile-pic {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #00aec9;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .search-filter-container {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    .search-box {
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 250px;
+    }
+    .filter-dropdown {
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: white;
+      cursor: pointer;
+    }
+    .no-results {
+      grid-column: 1 / -1;
+      padding: 40px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <!-- Profile Header -->
+  <div class="profile-header">
+    <div class="profile-info">
+      <div class="profile-pic">JD</div>
+      <div>
+        <h3 style="margin: 0;">John Doe</h3>
+        <p style="margin: 0; color: #666;">Premium Member</p>
+      </div>
+    </div>
+    
+    <div class="search-filter-container">
+      <input type="text" class="search-box" id="searchInput" placeholder="Search movies...">
+      <select class="filter-dropdown" id="genreFilter">
+        <option value="all">All Genres</option>
+        <option value="Action">Action</option>
+        <option value="Adventure">Adventure</option>
+        <option value="Animation">Animation</option>
+        <option value="Comedy">Comedy</option>
+        <option value="Crime">Crime</option>
+        <option value="Drama">Drama</option>
+        <option value="Fantasy">Fantasy</option>
+        <option value="Horror">Horror</option>
+        <option value="Sci-Fi">Sci-Fi</option>
+        <option value="Thriller">Thriller</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="header">
+    <h1>Movie Ticket Booking</h1>
+    <p>Select a movie to see available theaters</p>
+  </div>
+
+  <div class="movies-container" id="moviesContainer">
+    <!-- Movie 1 -->
+    <div class="movie-card" data-movie="Avengers: Endgame" data-price="10" data-genre="Action, Adventure">
+      <img src="https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_.jpg" alt="Avengers: Endgame">
+      <div class="movie-info">
+        <h3>Avengers: Endgame</h3>
+        <p>Action, Adventure</p>
+        <p class="price">$10</p>
+      </div>
+    </div>
+    
+    <!-- Movie 2 -->
+    <div class="movie-card" data-movie="Joker" data-price="12" data-genre="Crime, Drama">
+      <img src="https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" alt="Joker">
+      <div class="movie-info">
+        <h3>Joker</h3>
+        <p>Crime, Drama</p>
+        <p class="price">$12</p>
+      </div>
+    </div>
+    
+    <!-- Movie 3 -->
+    <div class="movie-card" data-movie="Toy Story 4" data-price="8" data-genre="Animation, Adventure">
+      <img src="https://m.media-amazon.com/images/M/MV5BMTYzMDM4NzkxOV5BMl5BanBnXkFtZTgwNzM1Mzg2NzM@._V1_.jpg" alt="Toy Story 4">
+      <div class="movie-info">
+        <h3>Toy Story 4</h3>
+        <p>Animation, Adventure</p>
+        <p class="price">$8</p>
+      </div>
+    </div>
+    
+    <!-- Movie 4 -->
+    <div class="movie-card" data-movie="The Dark Knight" data-price="11" data-genre="Action, Crime">
+      <img src="https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_.jpg" alt="The Dark Knight">
+      <div class="movie-info">
+        <h3>The Dark Knight</h3>
+        <p>Action, Crime</p>
+        <p class="price">$11</p>
+      </div>
+    </div>
+    
+    <!-- Movie 5 -->
+    <div class="movie-card" data-movie="Inception" data-price="10" data-genre="Action, Adventure">
+      <img src="https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg" alt="Inception">
+      <div class="movie-info">
+        <h3>Inception</h3>
+        <p>Action, Adventure</p>
+        <p class="price">$10</p>
+      </div>
+    </div>
+    
+    <!-- Movie 6 -->
+    <div class="movie-card" data-movie="Spider-Man: No Way Home" data-price="13" data-genre="Action, Adventure">
+      <img src="https://m.media-amazon.com/images/M/MV5BZWMyYzFjYTYtNTRjYi00OGExLWE2YzgtOGRmYjAxZTU3NzBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_FMjpg_UX1000_.jpg" alt="Spider-Man: No Way Home">
+      <div class="movie-info">
+        <h3>Spider-Man: No Way Home</h3>
+        <p>Action, Adventure</p>
+        <p class="price">$13</p>
+      </div>
+    </div>
+    
+    <!-- Movie 7 -->
+    <div class="movie-card" data-movie="The Shawshank Redemption" data-price="9" data-genre="Drama">
+      <img src="https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_.jpg" alt="The Shawshank Redemption">
+      <div class="movie-info">
+        <h3>The Shawshank Redemption</h3>
+        <p>Drama</p>
+        <p class="price">$9</p>
+      </div>
+    </div>
+    
+    <!-- Movie 8 -->
+    <div class="movie-card" data-movie="The Godfather" data-price="11" data-genre="Crime, Drama">
+      <img src="https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg" alt="The Godfather">
+      <div class="movie-info">
+        <h3>The Godfather</h3>
+        <p>Crime, Drama</p>
+        <p class="price">$11</p>
+      </div>
+    </div>
+    
+    <!-- Movie 9 -->
+    <div class="movie-card" data-movie="Pulp Fiction" data-price="10" data-genre="Crime, Drama">
+      <img src="https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzJjNDymNTY0OTJkXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg" alt="Pulp Fiction">
+      <div class="movie-info">
+        <h3>Pulp Fiction</h3>
+        <p>Crime, Drama</p>
+        <p class="price">$10</p>
+      </div>
+    </div>
+    
+    <!-- Movie 10 -->
+    <div class="movie-card" data-movie="Forrest Gump" data-price="8" data-genre="Drama, Romance">
+      <img src="https://m.media-amazon.com/images/M/MV5BNWIwODRlZTUtY2U3ZS00Yzg1LWJhNzYtMmZiYmEyNmU1NjMzXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg" alt="Forrest Gump">
+      <div class="movie-info">
+        <h3>Forrest Gump</h3>
+        <p>Drama, Romance</p>
+        <p class="price">$8</p>
+      </div>
+    </div>
+    
+    <!-- Movie 11 -->
+    <div class="movie-card" data-movie="The Matrix" data-price="10" data-genre="Action, Sci-Fi">
+      <img src="https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg" alt="The Matrix">
+      <div class="movie-info">
+        <h3>The Matrix</h3>
+        <p>Action, Sci-Fi</p>
+        <p class="price">$10</p>
+      </div>
+    </div>
+    
+    <!-- Movie 12 -->
+    <div class="movie-card" data-movie="Interstellar" data-price="12" data-genre="Adventure, Drama">
+      <img src="https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg" alt="Interstellar">
+      <div class="movie-info">
+        <h3>Interstellar</h3>
+        <p>Adventure, Drama</p>
+        <p class="price">$12</p>
+      </div>
+    </div>
+    
+    <!-- Movie 13 -->
+    <div class="movie-card" data-movie="Parasite" data-price="11" data-genre="Comedy, Drama">
+      <img src="https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_.jpg" alt="Parasite">
+      <div class="movie-info">
+        <h3>Parasite</h3>
+        <p>Comedy, Drama</p>
+        <p class="price">$11</p>
+      </div>
+    </div>
+    
+    <!-- Movie 14 -->
+    <div class="movie-card" data-movie="The Lion King" data-price="9" data-genre="Animation, Adventure">
+      <img src="https://m.media-amazon.com/images/M/MV5BYTYxNGMyZTYtMjE3MS00MzNjLWFjNmYtMDk3N2FmM2JiM2M1XkEyXkFqcGdeQXVyNjY5NDU4NzI@._V1_.jpg" alt="The Lion King">
+      <div class="movie-info">
+        <h3>The Lion King</h3>
+        <p>Animation, Adventure</p>
+        <p class="price">$9</p>
+      </div>
+    </div>
+    
+    <!-- Movie 15 -->
+    <div class="movie-card" data-movie="La La Land" data-price="10" data-genre="Comedy, Drama">
+      <img src="https://m.media-amazon.com/images/M/MV5BMzUzNDM2NzM2MV5BMl5BanBnXkFtZTgwNTM3NTg4OTE@._V1_.jpg" alt="La La Land">
+      <div class="movie-info">
+        <h3>La La Land</h3>
+        <p>Comedy, Drama</p>
+        <p class="price">$10</p>
+      </div>
+    </div>
+    
+    <!-- Movie 16 -->
+    <div class="movie-card" data-movie="Get Out" data-price="11" data-genre="Horror, Mystery">
+      <img src="https://m.media-amazon.com/images/M/MV5BMjUxMDQwNjcyNl5BMl5BanBnXkFtZTgwNzcwMzc0MTI@._V1_.jpg" alt="Get Out">
+      <div class="movie-info">
+        <h3>Get Out</h3>
+        <p>Horror, Mystery</p>
+        <p class="price">$11</p>
+      </div>
+    </div>
+    
+    <!-- Movie 17 -->
+    <div class="movie-card" data-movie="Black Panther" data-price="12" data-genre="Action, Adventure">
+      <img src="https://m.media-amazon.com/images/M/MV5BMTg1MTY2MjYzNV5BMl5BanBnXkFtZTgwMTc4NTMwNDI@._V1_.jpg" alt="Black Panther">
+      <div class="movie-info">
+        <h3>Black Panther</h3>
+        <p>Action, Adventure</p>
+        <p class="price">$12</p>
+      </div>
+    </div>
+    
+    <!-- Movie 18 -->
+    <div class="movie-card" data-movie="The Silence of the Lambs" data-price="10" data-genre="Crime, Drama">
+      <img src="https://m.media-amazon.com/images/M/MV5BNjNhZTk0ZmEtNjJhMi00YzFlLWE1MmEtYzM1M2ZmMGMwMTU4XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg" alt="The Silence of the Lambs">
+      <div class="movie-info">
+        <h3>The Silence of the Lambs</h3>
+        <p>Crime, Drama</p>
+        <p class="price">$10</p>
+      </div>
+    </div>
+    
+    <!-- Movie 19 -->
+    <div class="movie-card" data-movie="The Shining" data-price="9" data-genre="Drama, Horror">
+      <img src="https://m.media-amazon.com/images/M/MV5BZWFlYmY2MGEtZjVkYS00YzU4LTg0YjQtYzY1ZGE3NTA5NGQxXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg" alt="The Shining">
+      <div class="movie-info">
+        <h3>The Shining</h3>
+        <p>Drama, Horror</p>
+        <p class="price">$9</p>
+      </div>
+    </div>
+    
+    <!-- Movie 20 -->
+    <div class="movie-card" data-movie="Back to the Future" data-price="8" data-genre="Adventure, Comedy">
+      <img src="https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg" alt="Back to the Future">
+      <div class="movie-info">
+        <h3>Back to the Future</h3>
+        <p>Adventure, Comedy</p>
+        <p class="price">$8</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Original click functionality
+    document.querySelectorAll('.movie-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const movie = card.dataset.movie;
+        const price = card.dataset.price;
+        
+        // Store selection in localStorage
+        localStorage.setItem('selectedMovie', movie);
+        localStorage.setItem('selectedPrice', price);
+        
+        // Redirect to theaters page
+        window.location.href = 'theaters.html';
+      });
+    });
+
+    // Search and filter functionality
+    const searchInput = document.getElementById('searchInput');
+    const genreFilter = document.getElementById('genreFilter');
+    const moviesContainer = document.getElementById('moviesContainer');
+    const movieCards = document.querySelectorAll('.movie-card');
+
+    function filterMovies() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const selectedGenre = genreFilter.value;
+      
+      let visibleCount = 0;
+      
+      movieCards.forEach(card => {
+        const movieTitle = card.dataset.movie.toLowerCase();
+        const movieGenres = card.dataset.genre.toLowerCase();
+        
+        const matchesSearch = movieTitle.includes(searchTerm);
+        const matchesGenre = selectedGenre === 'all' || movieGenres.includes(selectedGenre.toLowerCase());
+        
+        if (matchesSearch && matchesGenre) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      // Show no results message if needed
+      let noResultsMsg = document.querySelector('.no-results');
+      if (visibleCount === 0) {
+        if (!noResultsMsg) {
+          noResultsMsg = document.createElement('div');
+          noResultsMsg.className = 'no-results';
+          noResultsMsg.textContent = 'No movies found matching your criteria.';
+          moviesContainer.appendChild(noResultsMsg);
+        }
+      } else if (noResultsMsg) {
+        noResultsMsg.remove();
+      }
+    }
+
+    // Add event listeners for search and filter
+    searchInput.addEventListener('input', filterMovies);
+    genreFilter.addEventListener('change', filterMovies);
+  </script>
+</body>
+</html>

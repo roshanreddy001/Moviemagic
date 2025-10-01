@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theater Selection</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .header {
+      margin-bottom: 30px;
+    }
+    .movie-info {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .theaters-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .theater-card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .theater-card:hover {
+      transform: translateY(-5px);
+    }
+    .theater-card h3 {
+      margin-top: 0;
+      color: #00aec9;
+    }
+    .theater-card p {
+      margin: 5px 0;
+      color: #666;
+    }
+    .back-btn {
+      margin-top: 30px;
+      background: #666;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Select Theater</h1>
+    <div class="movie-info">
+      <h2 id="selected-movie">Movie Title</h2>
+      <p id="selected-price">Price: $0</p>
+    </div>
+  </div>
+
+  <div class="theaters-container">
+    <!-- Theater 1 -->
+    <div class="theater-card" data-theater="Cineplex Downtown">
+      <h3>Cineplex Downtown</h3>
+      <p>123 Main Street</p>
+      <p>5 screens | Dolby Atmos</p>
+    </div>
+    
+    <!-- Theater 2 -->
+    <div class="theater-card" data-theater="IMAX City Center">
+      <h3>IMAX City Center</h3>
+      <p>456 Central Avenue</p>
+      <p>8 screens | IMAX Experience</p>
+    </div>
+    
+    <!-- Theater 3 -->
+    <div class="theater-card" data-theater="Starlight Cinemas">
+      <h3>Starlight Cinemas</h3>
+      <p>789 Riverside Drive</p>
+      <p>6 screens | Luxury Seating</p>
+    </div>
+    
+    <!-- Theater 4 -->
+    <div class="theater-card" data-theater="Metro Theater">
+      <h3>Metro Theater</h3>
+      <p>321 Oak Street</p>
+      <p>4 screens | Classic Experience</p>
+    </div>
+    
+    <!-- Theater 5 -->
+    <div class="theater-card" data-theater="Premiere Luxe">
+      <h3>Premiere Luxe</h3>
+      <p>654 Pine Road</p>
+      <p>7 screens | VIP Experience</p>
+    </div>
+  </div>
+
+  <button class="back-btn" onclick="window.location.href='index.html'">Back to Movies</button>
+
+  <script>
+    // Get selected movie info from localStorage
+    document.getElementById('selected-movie').textContent = localStorage.getItem('selectedMovie');
+    document.getElementById('selected-price').textContent = 'Price: $' + localStorage.getItem('selectedPrice');
+
+    // Theater selection
+    document.querySelectorAll('.theater-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const theater = card.dataset.theater;
+        localStorage.setItem('selectedTheater', theater);
+        window.location.href = 'slots.html';
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+      animation: slideIn 0.5s ease-out;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .booking-info {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    .booking-summary {
+      margin: 25px 0;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      animation: fadeIn 1s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .payment-section {
+      margin-top: 30px;
+      text-align: left;
+      max-width: 500px;
+      margin: 30px auto;
+    }
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #555;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    .form-group input:focus {
+      border-color: #00aec9;
+      box-shadow: 0 0 0 3px rgba(0,174,201,0.2);
+      outline: none;
+    }
+    .card-icons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .card-icon {
+      width: 40px;
+      height: 25px;
+      background: #eee;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #666;
+    }
+    .btn {
+      background: #00aec9;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      margin: 10px 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:hover {
+      background: #008c9e;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .btn:active {
+      transform: translateY(0);
+    }
+    .btn-back {
+      background: #666;
+    }
+    .btn-apply {
+      background: #28a745;
+      padding: 8px 15px;
+      margin-left: 10px;
+    }
+    .btn-apply:hover {
+      background: #218838;
+    }
+    .coupon-section {
+      margin: 20px 0;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      text-align: left;
+    }
+    .coupon-input-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .coupon-input-group input {
+      flex: 1;
+    }
+    .coupon-message {
+      margin-top: 10px;
+      font-size: 14px;
+      min-height: 20px;
+    }
+    .coupon-success {
+      color: #28a745;
+    }
+    .coupon-error {
+      color: #dc3545;
+    }
+    .price-breakdown {
+      margin-top: 10px;
+      text-align: left;
+      padding-left: 15px;
+    }
+    .price-breakdown p {
+      margin: 5px 0;
+    }
+    .discount {
+      color: #28a745;
+    }
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background-color: #f00;
+      opacity: 0;
+      z-index: 999;
+      animation: confetti 3s ease-out;
+    }
+    @keyframes confetti {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(1000px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+    .processing {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #00aec9;
+      animation: spin 1s ease-in-out infinite;
+      margin-bottom: 20px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn:disabled:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="booking-info">
+      <h2 id="selected-movie">Movie Title</h2>
+      <p id="selected-theater">Theater: </p>
+      <p id="selected-slot">Showtime: </p>
+    </div>
+
+    <div class="booking-summary">
+      <h3>Booking Summary</h3>
+      <p>Selected Seats: <span id="selected-seats">None</span></p>
+      <div class="price-breakdown">
+        <p>Subtotal: $<span id="subtotal-price">0</span></p>
+        <p class="discount">Discount: -$<span id="discount-amount">0</span></p>
+        <p><strong>Total Price: $<span id="total-price">0</span></strong></p>
+      </div>
+    </div>
+    
+    <div class="coupon-section">
+      <h3>Apply Coupon Code</h3>
+      <div class="coupon-input-group">
+        <input type="text" id="coupon-code" placeholder="Enter coupon code">
+        <button class="btn btn-apply" id="apply-coupon">Apply</button>
+      </div>
+      <div class="coupon-message" id="coupon-message"></div>
+    </div>
+    
+    <div class="payment-section">
+      <h3>Payment Information</h3>
+      <div class="form-group">
+        <label for="card-name">Name on Card</label>
+        <input type="text" id="card-name" placeholder="John Doe" required>
+      </div>
+      <div class="form-group">
+        <label for="card-number">Card Number</label>
+        <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required>
+        <div class="card-icons">
+          <div class="card-icon">VISA</div>
+          <div class="card-icon">MC</div>
+          <div class="card-icon">AMEX</div>
+        </div>
+      </div>
+      <div class="form-group" style="display: flex; gap: 10px;">
+        <div style="flex: 1;">
+          <label for="card-expiry">Expiry Date</label>
+          <input type="text" id="card-expiry" placeholder="MM/YY" required>
+        </div>
+        <div style="flex: 1;">
+          <label for="card-cvv">CVV</label>
+          <input type="text" id="card-cvv" placeholder="123" required>
+        </div>
+      </div>
+    </div>
+    
+    <button class="btn btn-back" onclick="window.location.href='booking.html'">Back to Seats</button>
+    <button class="btn" id="confirm-payment">Confirm Payment</button>
+  </div>
+
+  <div class="processing" id="processing" style="display: none;">
+    <div class="spinner"></div>
+    <h3>Processing your payment...</h3>
+  </div>
+
+  <script>
+    // Define available coupon codes
+    const couponCodes = {
+      "MOVIE10": { discount: 10, type: "percentage" },
+      "MOVIE15": { discount: 15, type: "percentage" },
+      "SAVE5": { discount: 5, type: "fixed" },
+      "FIRSTTIME": { discount: 20, type: "percentage" },
+      "SUMMER25": { discount: 25, type: "percentage" }
+    };
+
+    // Get selected info from localStorage
+    document.getElementById('selected-movie').textContent = localStorage.getItem('selectedMovie') || 'Movie Title';
+    document.getElementById('selected-theater').textContent = 'Theater: ' + (localStorage.getItem('selectedTheater') || 'Theater Name');
+    document.getElementById('selected-slot').textContent = 'Showtime: ' + (localStorage.getItem('selectedSlot') || 'Showtime');
+    
+    // Get booking summary
+    const selectedSeats = JSON.parse(localStorage.getItem('selectedSeats') || '[]');
+    const subtotalPrice = parseFloat(localStorage.getItem('totalPrice')) || 0;
+    document.getElementById('selected-seats').textContent = selectedSeats.join(', ') || 'None';
+    document.getElementById('subtotal-price').textContent = subtotalPrice.toFixed(2);
+    document.getElementById('total-price').textContent = subtotalPrice.toFixed(2);
+
+    // Initialize discount tracking
+    let appliedCoupon = null;
+    let discountAmount = 0;
+
+    // Apply coupon code functionality
+    document.getElementById('apply-coupon').addEventListener('click', applyCoupon);
+    document.getElementById('coupon-code').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        applyCoupon();
+      }
+    });
+
+    function applyCoupon() {
+      const couponCode = document.getElementById('coupon-code').value.trim().toUpperCase();
+      const messageElement = document.getElementById('coupon-message');
+      
+      if (!couponCode) {
+        messageElement.textContent = "Please enter a coupon code";
+        messageElement.className = "coupon-message coupon-error";
+        return;
+      }
+      
+      if (appliedCoupon) {
+        messageElement.textContent = "You have already applied a coupon code";
+        messageElement.className = "coupon-message coupon-error";
+        return;
+      }
+      
+      if (couponCodes[couponCode]) {
+        const coupon = couponCodes[couponCode];
+        const subtotal = parseFloat(subtotalPrice);
+        
+        if (coupon.type === "percentage") {
+          discountAmount = (subtotal * coupon.discount / 100).toFixed(2);
+        } else {
+          discountAmount = Math.min(coupon.discount, subtotal).toFixed(2);
+        }
+        
+        appliedCoupon = couponCode;
+        updateTotalPrice();
+        
+        messageElement.textContent = `Coupon applied successfully! You saved $${discountAmount}`;
+        messageElement.className = "coupon-message coupon-success";
+        
+        // Disable the coupon input and button
+        document.getElementById('coupon-code').disabled = true;
+        document.getElementById('apply-coupon').disabled = true;
+      } else {
+        messageElement.textContent = "Invalid coupon code. Please try again.";
+        messageElement.className = "coupon-message coupon-error";
+      }
+    }
+
+    function updateTotalPrice() {
+      const subtotal = parseFloat(subtotalPrice);
+      const total = (subtotal - parseFloat(discountAmount)).toFixed(2);
+      
+      document.getElementById('discount-amount').textContent = discountAmount;
+      document.getElementById('total-price').textContent = total;
+    }
+
+    // Payment confirmation
+    document.getElementById('confirm-payment').addEventListener('click', () => {
+      // Validate payment info
+      const cardName = document.getElementById('card-name').value;
+      const cardNumber = document.getElementById('card-number').value;
+      const cardExpiry = document.getElementById('card-expiry').value;
+      const cardCvv = document.getElementById('card-cvv').value;
+      
+      if (!cardName || !cardNumber || !cardExpiry || !cardCvv) {
+        alert('Please fill in all payment details');
+        return;
+      }
+      
+      // Show processing animation
+      document.getElementById('processing').style.display = 'flex';
+      
+      // Simulate payment processing
+      setTimeout(() => {
+        // Create confetti effect
+        for (let i = 0; i < 100; i++) {
+          createConfetti();
+        }
+        
+        // Show success message
+        const discountText = appliedCoupon ? `\nCoupon Applied: ${appliedCoupon}\nDiscount: $${discountAmount}` : '';
+        alert(`Payment Successful!\n\nMovie: ${localStorage.getItem('selectedMovie')}\nTheater: ${localStorage.getItem('selectedTheater')}\nShowtime: ${localStorage.getItem('selectedSlot')}\nSeats: ${selectedSeats.join(', ')}\nSubtotal: $${subtotalPrice.toFixed(2)}${discountText}\nTotal: $${document.getElementById('total-price').textContent}`);
+        
+        // Reset selections
+        localStorage.removeItem('selectedMovie');
+        localStorage.removeItem('selectedTheater');
+        localStorage.removeItem('selectedSlot');
+        localStorage.removeItem('selectedPrice');
+        localStorage.removeItem('selectedSeats');
+        localStorage.removeItem('totalPrice');
+        
+        // Redirect to home
+        window.location.href = 'index.html';
+      }, 2000);
+    });
+    
+    function createConfetti() {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * window.innerWidth + 'px';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+      document.body.appendChild(confetti);
+      
+      // Remove confetti after animation
+      setTimeout(() => {
+        confetti.remove();
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

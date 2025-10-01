@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seat Selection</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .booking-info {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    .screen {
+      background: linear-gradient(to right, #e4e4e4, #f8f8f8, #e4e4e4);
+      height: 40px;
+      margin: 20px auto;
+      width: 80%;
+      border-radius: 10px 10px 3px 3px;
+      box-shadow: 0px 3px 10px #ccc;
+      position: relative;
+      overflow: hidden;
+    }
+    .screen:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+      animation: screenShine 3s infinite;
+    }
+    @keyframes screenShine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    .seats-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px 0;
+    }
+    .row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+    .row-label {
+      width: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    .seat {
+      background: #444451;
+      height: 32px;
+      width: 32px;
+      margin: 4px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      display: inline-block;
+      border: 2px solid transparent;
+      position: relative;
+      color: white;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .seat.selected {
+      background: #3ae742;
+      border: 2px solid #3ae742;
+      transform: scale(1.1);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+    }
+    .seat.occupied {
+      background: #fff;
+      border: 2px solid #bbb;
+      cursor: not-allowed;
+      color: #bbb;
+    }
+    .legend {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+      max-width: 500px;
+      margin: 20px auto;
+    }
+    .legend span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 14px;
+    }
+    .booking-summary {
+      margin: 25px 0;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(0,174,201,0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(0,174,201,0); }
+      100% { box-shadow: 0 0 0 0 rgba(0,174,201,0); }
+    }
+    .btn {
+      background: #00aec9;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      margin: 10px 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:hover {
+      background: #008c9e;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .btn:active {
+      transform: translateY(0);
+    }
+    .btn:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+    .btn:focus:not(:active)::after {
+      animation: ripple 1s ease-out;
+    }
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(20, 20);
+        opacity: 0;
+      }
+    }
+    .btn-back {
+      background: #666;
+    }
+    .btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn:disabled:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="booking-info">
+      <h2 id="selected-movie">Movie Title</h2>
+      <p id="selected-theater">Theater: </p>
+      <p id="selected-slot">Showtime: </p>
+      <p id="selected-price">Price per seat: $0</p>
+    </div>
+
+    <div class="screen">SCREEN</div>
+
+    <div class="seats-container">
+      <!-- Row A -->
+      <div class="row">
+        <div class="row-label">A</div>
+        <div class="seat" data-seat="A1">1</div>
+        <div class="seat" data-seat="A2">2</div>
+        <div class="seat" data-seat="A3">3</div>
+        <div class="seat" data-seat="A4">4</div>
+        <div class="seat" data-seat="A5">5</div>
+        <div class="seat" data-seat="A6">6</div>
+      </div>
+      <!-- Row B -->
+      <div class="row">
+        <div class="row-label">B</div>
+        <div class="seat" data-seat="B1">1</div>
+        <div class="seat" data-seat="B2">2</div>
+        <div class="seat occupied" data-seat="B3">3</div>
+        <div class="seat" data-seat="B4">4</div>
+        <div class="seat" data-seat="B5">5</div>
+        <div class="seat" data-seat="B6">6</div>
+      </div>
+      <!-- Row C -->
+      <div class="row">
+        <div class="row-label">C</div>
+        <div class="seat" data-seat="C1">1</div>
+        <div class="seat" data-seat="C2">2</div>
+        <div class="seat" data-seat="C3">3</div>
+        <div class="seat occupied" data-seat="C4">4</div>
+        <div class="seat" data-seat="C5">5</div>
+        <div class="seat" data-seat="C6">6</div>
+      </div>
+      <!-- Row D -->
+      <div class="row">
+        <div class="row-label">D</div>
+        <div class="seat" data-seat="D1">1</div>
+        <div class="seat" data-seat="D2">2</div>
+        <div class="seat" data-seat="D3">3</div>
+        <div class="seat" data-seat="D4">4</div>
+        <div class="seat occupied" data-seat="D5">5</div>
+        <div class="seat" data-seat="D6">6</div>
+      </div>
+    </div>
+    
+    <div class="legend">
+      <span><div class="seat"></div>Available</span>
+      <span><div class="seat selected"></div>Selected</span>
+      <span><div class="seat occupied"></div>Occupied</span>
+    </div>
+    
+    <div class="booking-summary">
+      <h3>Booking Summary</h3>
+      <p>Selected Seats: <span id="selected-seats">None</span></p>
+      <p>Total Price: $<span id="total-price">0</span></p>
+    </div>
+    
+    <button class="btn btn-back" onclick="window.location.href='slots.html'">Back to Showtimes</button>
+    <button class="btn" id="proceed-to-payment" disabled>Proceed to Payment</button>
+  </div>
+
+  <script>
+    // Get selected info from localStorage
+    document.getElementById('selected-movie').textContent = localStorage.getItem('selectedMovie') || 'Movie Title';
+    document.getElementById('selected-theater').textContent = 'Theater: ' + (localStorage.getItem('selectedTheater') || 'Theater Name');
+    document.getElementById('selected-slot').textContent = 'Showtime: ' + (localStorage.getItem('selectedSlot') || 'Showtime');
+    const pricePerSeat = parseFloat(localStorage.getItem('selectedPrice')) || 0;
+    document.getElementById('selected-price').textContent = 'Price per seat: $' + pricePerSeat;
+
+    // Seat selection logic
+    const seats = document.querySelectorAll('.seat:not(.occupied)');
+    const selectedSeatsElement = document.getElementById('selected-seats');
+    const totalPriceElement = document.getElementById('total-price');
+    const paymentBtn = document.getElementById('proceed-to-payment');
+    
+    let selectedSeats = [];
+    let totalPrice = 0;
+    
+    seats.forEach(seat => {
+      seat.addEventListener('click', () => {
+        seat.classList.toggle('selected');
+        const seatNumber = seat.dataset.seat;
+        
+        // Update selected seats array
+        if (seat.classList.contains('selected')) {
+          selectedSeats.push(seatNumber);
+        } else {
+          selectedSeats = selectedSeats.filter(s => s !== seatNumber);
+        }
+        
+        // Update summary
+        selectedSeatsElement.textContent = selectedSeats.join(', ') || 'None';
+        totalPrice = selectedSeats.length * pricePerSeat;
+        totalPriceElement.textContent = totalPrice.toFixed(2);
+        
+        // Enable/disable payment button
+        paymentBtn.disabled = selectedSeats.length === 0;
+      });
+    });
+    
+    // Proceed to payment
+    paymentBtn.addEventListener('click', () => {
+      if (selectedSeats.length === 0) {
+        alert('Please select at least one seat');
+        return;
+      }
+      
+      // Store selected seats and total price
+      localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
+      localStorage.setItem('totalPrice', totalPrice.toFixed(2));
+      
+      // Redirect to payment page
+      window.location.href = 'payment.html';
+    });
+  </script>
+</body>
+</html>
